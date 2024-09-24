@@ -42,7 +42,10 @@ shinyUI(fluidPage(
               checkboxInput("zeroegalNA","consider 0 as NA",FALSE)
           )
             ,
-          actionButton("confirmdatabutton","Confirm data"),
+          actionButton("confirmdatabutton","Confirm data", 
+                        style = "background-color: #63BFBF;
+                                  color: white;
+                                  border-color: #63BFBF;"),
           conditionalPanel(condition ="input.help",
              helpText("Data has to be confirm to continue"))
         ),

@@ -291,12 +291,18 @@ output$downloadplotheatmapNA = downloadHandler(
            device = input$paramdownplot)
   },
   contentType=NA)
+
 output$downloaddataheatmapNA <- downloadHandler(
-  filename = function() { paste('dataset', '.',input$paramdowntable, sep='') },
+  filename = function() { paste('dataset distribution of NA', '.',input$paramdowntable, sep='') },
   content = function(file) {
-    downloaddataset(heatmapNA(toto =SELECTDATA()$LEARNINGSELECT,graph = F), file)
+    downloaddataset(as.data.frame(heatmapNA(toto =SELECTDATA()$LEARNINGSELECT,graph = F)), file)
   }
 )
+
+# observe({
+#   req(heatmapNA(toto =SELECTDATA()$LEARNINGSELECT,graph = F))
+#   print(class(heatmapNA(toto =SELECTDATA()$LEARNINGSELECT,graph = F)))
+# })
 
 output$plotNA<-renderPlot({
   learningselect<-SELECTDATA()$LEARNINGSELECT
@@ -390,7 +396,7 @@ output$downloadplotheatmap = downloadHandler(
 output$downloaddataheatmap <- downloadHandler(
   filename = function() { paste('dataset', '.',input$paramdowntable, sep='') },
   content = function(file) {
-    downloaddataset(heatmapplot(toto =TRANSFORMDATA()$LEARNINGTRANSFORM,ggplot = T,scale=F,graph=F), file)
+    downloaddataset(as.data.frame(heatmapplot(toto =TRANSFORMDATA()$LEARNINGTRANSFORM,ggplot = T,scale=F,graph=F)), file)
   })
 
 output$plotmds<-renderPlot({

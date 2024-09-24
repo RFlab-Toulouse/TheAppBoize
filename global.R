@@ -29,6 +29,7 @@ usePackage("corrplot")
 usePackage("penalizedSVM")
 usePackage("DT")
 usePackage("shinycssloaders")
+usePackage("writexl")
 
 ##########################
 importfile<-function (datapath,extension,NAstring="NA",sheet=1,skiplines=0,dec=".",sep=","){
@@ -93,7 +94,8 @@ downloaddataset <- function(x,file,cnames=T,rnames=T){
     }
   }
   if(ext=="xlsx"){
-    write.xlsx(x,file,col.names = cnames,row.names =rnames )
+    #write.xlsx(x,file,col.names = cnames,row.names =rnames )
+    writexl::write_xlsx(x,file, col_names = cnames)
   }
   
 }
