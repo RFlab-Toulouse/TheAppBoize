@@ -42,8 +42,9 @@ importfile<-function (datapath,extension,NAstring="NA",sheet=1,skiplines=0,dec="
     options(warn=-1)
     filerm<<-file.rename(datapath,paste(datapath, ".xlsx", sep=""))
     options(warn=0)
-    toto <<-read_excel(paste(datapath, ".xlsx", sep=""),na=NAstring,col_names = F,skip = skiplines,sheet = sheet)
-    # toto <-read.xlsx2(file = datapath,sheetIndex = sheet)
+    toto <<- read_excel(paste(datapath, ".xlsx", sep=""),na=NAstring,col_names = F,skip = skiplines,sheet = sheet) %>% as.data.frame()
+    #toto <<- read_xlsx(paste(datapath, ".xlsx", sep=""),na=NAstring,col_names = F,skip = skiplines,sheet = sheet)
+    #toto <-read.xlsx2(file = datapath,sheetIndex = sheet)
     #toto <-read_excel(datapath,na=NAstring,col_names = F,skip = skiplines,sheet = sheet)
   }
   #remove empty column
@@ -52,6 +53,7 @@ importfile<-function (datapath,extension,NAstring="NA",sheet=1,skiplines=0,dec="
   #remove empty row
   if(length(which(apply(X = toto,MARGIN=1,function(x){sum(is.na(x))})==ncol(toto)))!=0){
     toto<-toto[-which(apply(X = toto,MARGIN=1,function(x){sum(is.na(x))})==ncol(toto)),]}
+  print(class(toto))
   
   rnames<-as.character(as.matrix(toto[,1]))
   cnames<-as.character(as.matrix(toto[1,]))
@@ -81,6 +83,19 @@ importfile<-function (datapath,extension,NAstring="NA",sheet=1,skiplines=0,dec="
 #   }
 #   
 # }
+
+# df <- reactive({
+#   req(input$learningfile)
+#   file <- input$learningfile
+#   ext <- tools::file_ext(file$datapath)
+#   
+#   req(file)
+#   validate(need(ext == "xlsx", "Veuillez télécharger un fichier CSV"))
+#   
+#   df = read_excel(file$datapath)
+#   print(head(df))
+#   return( df)
+# })
 
 
 downloaddataset <- function(x,file,cnames=T,rnames=T){
@@ -160,6 +175,7 @@ confirmdata<-function(toto){
   return(toto)
 }
 
+
 importfunction<-function(importparameters){
   previousparameters<-NULL
   validation<-NULL
@@ -179,6 +195,9 @@ importfunction<-function(importparameters){
   if(!is.null(importparameters$learningfile)  ){
     #if(importparameters$confirmdatabutton==0){
       datapath<- importparameters$learningfile$datapath
+      #datapath <- input$learningfile$datapath
+      #print(datapath)
+      #print(paste(datapath, ".xlsx", sep=""))
       #out<<-tryCatch(
       learning<-importfile(datapath = datapath,extension = importparameters$extension,NAstring=importparameters$NAstring,
                            sheet=importparameters$sheetn,skiplines=importparameters$skipn,dec=importparameters$dec,sep=importparameters$sep)

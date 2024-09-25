@@ -20,7 +20,12 @@ shinyUI(fluidPage(
               column(12,conditionalPanel(condition ="input.help",
                 helpText("Learning file is obligatory to continue")
               ),
-                fileInput("learningfile", label = h4("learning File"),accept =  c("text/csv","application/vnd.ms-excel","application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",".xls",".xlsx"))
+                fileInput("learningfile", 
+                          label = h4("learning File"),
+                          accept =  c("text/csv",
+                                      "application/vnd.ms-excel",
+                                      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                                      ".xls",".xlsx"))
               )
               ,
               column(12,
