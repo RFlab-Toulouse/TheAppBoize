@@ -968,8 +968,8 @@ ROCcurve<-function(validation,decisionvalues,maintitle="Roc curve",graph=T,ggplo
     sp = 19
     f <- p + geom_point(data = diag, aes(x = x, y = y), color = "lightgrey",
                         shape = sp) + theme(axis.text = element_text(size = 16),
-                                            title = element_text(size = 15)) + labs(x = "Sensitivity",
-                                                                                    y = "Specificity", title = maintitle) +
+                                            title = element_text(size = 15)) + labs(y = "Sensitivity",
+                                                                                    x = "1 - Specificity", title = maintitle) +
       annotate("text",x=0.2,y=0.1,label=paste("AUC = ",as.character(round(auc,digits = 3))),size=7,colour= roccol)+
       scale_x_reverse()
     
