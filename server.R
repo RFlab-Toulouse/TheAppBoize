@@ -98,7 +98,7 @@ shinyServer(function(input, output,session) {
       updateRadioButtons(session,"test",selected=DATA()$previousparameters$testparameters$test)
       updateNumericInput(session, "thresholdFC", value = DATA()$previousparameterstestparameters$parameters$thresholdFC)
       updateNumericInput(session, "thresholdpv", value = DATA()$previousparameterstestparameters$parameters$thresholdpv)
-      updateCheckboxInput(session ,"adjustpval",value=DATA()$previousparameterstestparameters$parameters$adjustpval)
+      updateCheckboxInput(session ,"adjustpval",value=DATA()$previousparameters$testparameters$parameters$adjustpval)
       updateCheckboxInput(session ,"SFtest",value=DATA()$previousparameterstestparameters$parameters$SFtest)
       
       updateRadioButtons(session,"model",selected=DATA()$previousparameters$modelparameters$modeltype)
