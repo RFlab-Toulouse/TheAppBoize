@@ -95,11 +95,17 @@ shinyServer(function(input, output,session) {
       updateCheckboxInput(session ,"standardization",value=DATA()$previousparameters$transformdataparameters$standardization)
       updateCheckboxInput(session ,"arcsin",value=DATA()$previousparameters$transformdataparameters$arcsin)
       
+      #updateRadioButtons(session,"test",selected=DATA()$previousparameters$testparameters$test)
+      #updateNumericInput(session, "thresholdFC", value = DATA()$previousparameters$testparameters$parameters$thresholdFC)
+      #updateNumericInput(session, "thresholdpv", value = DATA()$previousparameters$testparameters$parameters$thresholdpv)
+      #updateCheckboxInput(session ,"adjustpval",value=DATA()$previousparameters$testparameters$parameters$adjustpval)
+      #updateCheckboxInput(session ,"SFtest",value=DATA()$previousparameters$testparameters$parameters$SFtest)
+
       updateRadioButtons(session,"test",selected=DATA()$previousparameters$testparameters$test)
-      updateNumericInput(session, "thresholdFC", value = DATA()$previousparameters$testparameters$parameters$thresholdFC)
-      updateNumericInput(session, "thresholdpv", value = DATA()$previousparameters$testparameters$parameters$thresholdpv)
-      updateCheckboxInput(session ,"adjustpval",value=DATA()$previousparameters$testparameters$parameters$adjustpval)
-      updateCheckboxInput(session ,"SFtest",value=DATA()$previousparameters$testparameters$parameters$SFtest)
+      updateNumericInput(session, "thresholdFC", value = DATA()$previousparameters$testparameters$thresholdFC)
+      updateNumericInput(session, "thresholdpv", value = DATA()$previousparameters$testparameters$thresholdpv)
+      updateCheckboxInput(session ,"adjustpv",value=DATA()$previousparameters$testparameters$adjustpv)
+      updateCheckboxInput(session ,"SFtest",value=DATA()$previousparameters$testparameters$SFtest)
       
       updateRadioButtons(session,"model",selected=DATA()$previousparameters$modelparameters$modeltype)
       updateNumericInput(session, "thresholdmodel", value = DATA()$previousparameters$modelparameters$thresholdmodel)
