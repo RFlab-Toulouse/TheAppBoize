@@ -881,7 +881,7 @@ modelfunction<-function(learningmodel,validation=NULL,modelparameters,transformd
       
       #prediction a partir du model
       if(modelparameters$modeltype=="randomforest"){
-        scoreval <-predict(object=model,type="prob",newdata = validationmodel)[,lev["positif"]]
+        scoreval <- randomForest:::predict.randomForest(object=model,type="prob",newdata = validationmodel)[,lev["positif"]]
         predictclassval<-vector(length = length(scoreval) ) 
         predictclassval[which(scoreval>=modelparameters$thresholdmodel)]<-lev["positif"]
         predictclassval[which(scoreval<modelparameters$thresholdmodel)]<-lev["negatif"]
@@ -890,7 +890,7 @@ modelfunction<-function(learningmodel,validation=NULL,modelparameters,transformd
       }
       
       if(modelparameters$modeltype=="svm"){
-        scoreval =attr(predict(model,newdata =  validationmodel,decision.values=T),"decision.values")
+        scoreval =attr(e1071:::predict.svm(model,newdata =  validationmodel,decision.values=T),"decision.values")
         if(sum(lev==(strsplit(colnames(scoreval),split = "/")[[1]]))==0){scoreval<-scoreval*(-1)}
         predictclassval<-vector(length = length(scoreval) ) 
         predictclassval[which(scoreval>=modelparameters$thresholdmodel)]<-lev["positif"]
