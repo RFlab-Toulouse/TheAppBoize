@@ -638,7 +638,7 @@ diffexptest<-function(toto,test="Wtest"){
     
     FC1o2[i]<-mlev1[i]/mlev2[i]
     FC2o1[i]<-mlev2[i]/mlev1[i]
-    auc[i]<-auc(roc(group,toto[,i],quiet=TRUE))
+    auc[i]<-auc(pROC::rocgroup,toto[,i],quiet=TRUE))
     resyounden[i,]<-younden(response = group,predictor = toto[,i])
     if( test=="Ttest"){pval[i]<-t.test(x = lev1,y = lev2)$p.value}
     else if( test=="Wtest"){pval[i]<-wilcox.test(lev1 ,lev2,exact = F)$p.value } 
@@ -657,7 +657,7 @@ diffexptest<-function(toto,test="Wtest"){
 }
 
 younden<-function(response,predictor){
-  res<-roc(response,predictor,quiet=T)
+  res<-pROC::rocresponse,predictor,quiet=T)
   youndenscore<-res$sensitivities+res$specificities-1
   best<-which(youndenscore==max(youndenscore))[1] # Only the first best is kept
   youndenbest<-youndenscore[best]
@@ -910,7 +910,7 @@ modelfunction<-function(learningmodel,validation=NULL,modelparameters,transformd
       levels(predictclassval)<-paste("test",lev,sep="")
       resvalidationmodel<-data.frame(classval,scoreval,predictclassval)
       colnames(resvalidationmodel) <-c("classval","scoreval","predictclassval") 
-      auc<-auc(roc(as.vector(classval), as.vector(scoreval),quiet=T))
+      auc<-auc(pROC::rocas.vector(classval), as.vector(scoreval),quiet=T))
       datavalidationmodel<-list("validationdiff"=validationdiff,"validationmodel"=validationmodel,"resvalidationmodel"=resvalidationmodel,"auc"=auc)
       
     }
@@ -948,7 +948,7 @@ ROCcurve<-function(validation,decisionvalues,maintitle="Roc curve",graph=T,ggplo
   #argument : validation, vector of appartenance,
   #            decisionvalues, vector of scores
   #fulldata<-rocdata(grp = validation, pred = as.vector(decisionvalues))
-  data<-roc(validation,decisionvalues)
+  data<-pROC::rocvalidation,decisionvalues)
   if(!graph){return(data.frame("sensitivity"=data$sensitivities,"specificity"=data$specificities,"thresholds"=data$thresholds))}
   if(!ggplot){plot(data)}
   if(ggplot){
@@ -1078,7 +1078,7 @@ testmodel<-function(model,modeltype,tab,validation,criterionimportance,criterion
   if(modeltype=="svm"){
     if(criterionmodel=="BER"){bermod<-BER(class = tab[,1],classpredict = model$fitted)}
     if(criterionmodel=="auc"){
-      if (fstype=='learn'){aucmod<-auc(roc(tab[,1], as.vector(model$decision.values),quiet=T))}
+      if (fstype=='learn'){aucmod<-auc(pROC::roctab[,1], as.vector(model$decision.values),quiet=T))}
       if (fstype=='val'){
         print("")
         #predict sur la validation
@@ -1092,11 +1092,11 @@ testmodel<-function(model,modeltype,tab,validation,criterionimportance,criterion
         #print(paste("Ber test :",BER(class = tabdiff2[,1],classpredict = resmodeldiff$fitted) ))
         test[i]<-bermod-BER(class = tabdiff2[,1],classpredict = resmodeldiff$fitted)}
       if(criterionmodel=="auc"){
-        test[i]<-auc(roc(tabdiff2[,1], as.vector(resmodeldiff$decision.values),quiet=T))-aucmod}
+        test[i]<-auc(pROC::roctabdiff2[,1], as.vector(resmodeldiff$decision.values),quiet=T))-aucmod}
     }}
   if(modeltype=="randomforest"){
     if(criterionmodel=="BER"){bermod<-BER(class = tab[,1],classpredict = model$predicted)}
-    if(criterionmodel=="auc"){aucmod<-auc(roc(tab[,1], as.vector(model$votes[,1]),quiet=T))}
+    if(criterionmodel=="auc"){aucmod<-auc(pROC::roctab[,1], as.vector(model$votes[,1]),quiet=T))}
     for(i in 1:length(lessimportantevar)){
       tabdiff2<-tab[,-lessimportantevar[i]]
       tabdiff2<-as.data.frame(tabdiff2[,c(colnames(tabdiff2)[1],sort(colnames(tabdiff2[,-1])))])
@@ -1108,7 +1108,7 @@ testmodel<-function(model,modeltype,tab,validation,criterionimportance,criterion
       if(criterionmodel=="BER"){
         test[i]<-bermod-BER(class = tabdiff2[,1],classpredict = resmodeldiff$predicted)}
       if(criterionmodel=="auc"){
-        test[i]<-auc(roc(tabdiff2[,1], as.vector(resmodeldiff$votes[,1]),quiet=T))-aucmod}
+        test[i]<-auc(pROC::roctabdiff2[,1], as.vector(resmodeldiff$votes[,1]),quiet=T))-aucmod}
     }
   }
   #print(paste("test :",max(test)))
@@ -1262,14 +1262,14 @@ testparametersfunction<-function(learning,validation,tabparameters){
     if(parameters$model!="nomodel"){
       results[i,7]<-dim(resmodel$datalearningmodel$learningmodel)[2]-1
       #auclearning
-      results[i,4]<-round(as.numeric(auc(roc(resmodel$datalearningmodel$reslearningmodel$classlearning,resmodel$datalearningmodel$reslearningmodel$scorelearning,quiet=T))),digits = 3)
+      results[i,4]<-round(as.numeric(auc(pROC::rocresmodel$datalearningmodel$reslearningmodel$classlearning,resmodel$datalearningmodel$reslearningmodel$scorelearning,quiet=T))),digits = 3)
       #sensibilitylearning
       results[i,5]<-sensibility(resmodel$datalearningmodel$reslearningmodel$predictclasslearning,resmodel$datalearningmodel$reslearningmodel$classlearning)
       #specificitylearning
       results[i,6]<-specificity(resmodel$datalearningmodel$reslearningmodel$predictclasslearning,resmodel$datalearningmodel$reslearningmodel$classlearning)
       if(!is.null(validation)){
       #aucvalidation
-      results[i,1]<-round(as.numeric(auc(roc(resmodel$datavalidationmodel$resvalidationmodel$classval,resmodel$datavalidationmodel$resvalidationmodel$scoreval,quiet=T))),digits = 3)
+      results[i,1]<-round(as.numeric(auc(pROC::rocresmodel$datavalidationmodel$resvalidationmodel$classval,resmodel$datavalidationmodel$resvalidationmodel$scoreval,quiet=T))),digits = 3)
       #sensibilityvalidation
       results[i,2]<-sensibility(resmodel$datavalidationmodel$resvalidationmodel$predictclassval,resmodel$datavalidationmodel$resvalidationmodel$classval)
       #specificityvalidation
